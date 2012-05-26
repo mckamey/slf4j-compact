@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<groupId>com.pseudocode</groupId>
+	<artifactId>slf4j-compact</artifactId>
+	<version>1.6.4</version>
+	<packaging>jar</packaging>
+
+	<name>SLF4J Compact</name>
+	<description>SLF4J Compact Simple Binding</description>
+	<url>https://bitbucket.org/mckamey/slf4j-compact</url>
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>https://bitbucket.org/mckamey/slf4j-compact/LICENSE.txt</url>
+		</license>
+	</licenses>
+	<scm>
+		<url>https://bitbucket.org/mckamey/slf4j-compact</url>
+		<connection>scm:hg:https://bitbucket.org/mckamey/slf4j-compact</connection>
+		<developerConnection>scm:hg:https://bitbucket.org/mckamey/slf4j-compact</developerConnection>
+	</scm>
+	<developers>
+		<developer>
+			<id>mckamey</id>
+			<name>Stephen M. McKamey</name>
+			<url>http://mck.me</url>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<slf4j.version>${project.version}</slf4j.version>
+		<junit.version>4.9</junit.version>
+		<javac.version>1.6</javac.version>
+	</properties>
+
+	<dependencies>
+		<!-- SLF4J runtime -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<!-- JUnit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+
+		<pluginManagement>
+			<plugins>
+				<!-- Java compiler -->
+				<plugin>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<configuration>
+						<source>${javac.version}</source>
+						<target>${javac.version}</target>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>
