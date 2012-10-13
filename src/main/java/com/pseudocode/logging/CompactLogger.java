@@ -101,7 +101,7 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	@Override
-	public void trace(String msg, Object[] args) {
+	public void trace(String msg, Object... args) {
 		if (isTraceEnabled()) {
 			write(TRACE, msg, args);
 		}
@@ -136,7 +136,7 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	@Override
-	public void debug(String format, Object[] args) {
+	public void debug(String format, Object... args) {
 		if (isDebugEnabled()) {
 			write(DEBUG, format, args);
 		}
@@ -171,7 +171,7 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	@Override
-	public void info(String format, Object[] args) {
+	public void info(String format, Object... args) {
 		if (isInfoEnabled()) {
 			write(INFO, format, args);
 		}
@@ -206,7 +206,7 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	@Override
-	public void warn(String format, Object[] args) {
+	public void warn(String format, Object... args) {
 		if (isWarnEnabled()) {
 			write(WARN, format, args);
 		}
@@ -241,7 +241,7 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	@Override
-	public void error(String format, Object[] args) {
+	public void error(String format, Object... args) {
 		if (isErrorEnabled()) {
 			write(ERROR, format, args);
 		}
