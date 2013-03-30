@@ -8,11 +8,12 @@ import org.slf4j.helpers.MarkerIgnoringBase;
 @SuppressWarnings("serial")
 public class CompactLogger extends MarkerIgnoringBase {
 
-	private static final String TRACE = "[TRACE] ";
-	private static final String DEBUG = "[DEBUG] ";
-	private static final String INFO = "[INFO] ";
-	private static final String WARN = "[WARNING] ";
-	private static final String ERROR = "[ERROR] ";
+	private static final String TRACE = "[TRACE ";
+	private static final String DEBUG = "[DEBUG ";
+	private static final String INFO = "[INFO ";
+	private static final String WARN = "[WARNING ";
+	private static final String ERROR = "[ERROR ";
+	private static final String END = "] ";
 
 	private final PrintStream writer;
 
@@ -56,26 +57,26 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	protected void write(String label, String msg) {
-		writer.println(label+msg);
+		writer.println(label+System.currentTimeMillis()+END+msg);
 	}
 
 	protected void write(String label, String format, Object arg1) {
-		writer.format(label+format, arg1);
+		writer.format(label+System.currentTimeMillis()+END+format, arg1);
 		writer.println();
 	}
 
 	protected void write(String label, String format, Object arg1, Object arg2) {
-		writer.format(label+format, arg1, arg2);
+		writer.format(label+System.currentTimeMillis()+END+format, arg1, arg2);
 		writer.println();
 	}
 
 	protected void write(String label, String format, Object[] args) {
-		writer.format(label+format, args);
+		writer.format(label+System.currentTimeMillis()+END+format, args);
 		writer.println();
 	}
 
 	protected void write(String label, String msg, Throwable t) {
-		writer.println(label+msg);
+		writer.println(label+System.currentTimeMillis()+END+msg);
 		writer.println(t.toString());
 	}
 
