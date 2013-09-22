@@ -3,7 +3,9 @@ package com.pseudocode.logging;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
+import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
+import org.slf4j.helpers.MessageFormatter;
 
 @SuppressWarnings("serial")
 public class CompactLogger extends MarkerIgnoringBase {
@@ -14,11 +16,13 @@ public class CompactLogger extends MarkerIgnoringBase {
 	private static final String WARN = "[WARNING ";
 	private static final String ERROR = "[ERROR ";
 	private static final String END = "] ";
+	private static final String SPACE = " ";
 
+	private static final String NEWLINE = System.getProperty("line.separator");
 	private final PrintStream writer;
 
 	public CompactLogger(String name, OutputStream output) {
-		this.name = name;
+		this.name = (name == null) ? "" : name.substring(name.lastIndexOf('.')+1);
 
 		if (output == null) {
 			this.writer = System.out;
@@ -57,27 +61,41 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	protected void write(String label, String msg) {
-		writer.println(label+System.currentTimeMillis()+END+msg);
+		write(label, msg, (Throwable)null);
 	}
 
 	protected void write(String label, String format, Object arg1) {
-		writer.format(label+System.currentTimeMillis()+END+format, arg1);
-		writer.println();
+		FormattingTuple tuple = MessageFormatter.format(format, arg1);
+		write(label, tuple.getMessage(), tuple.getThrowable());
 	}
 
 	protected void write(String label, String format, Object arg1, Object arg2) {
-		writer.format(label+System.currentTimeMillis()+END+format, arg1, arg2);
-		writer.println();
+		FormattingTuple tuple = MessageFormatter.format(format, arg1, arg2);
+		write(label, tuple.getMessage(), tuple.getThrowable());
 	}
 
 	protected void write(String label, String format, Object[] args) {
-		writer.format(label+System.currentTimeMillis()+END+format, args);
-		writer.println();
+		FormattingTuple tuple = MessageFormatter.arrayFormat(format, args);
+		write(label, tuple.getMessage(), tuple.getThrowable());
 	}
 
 	protected void write(String label, String msg, Throwable t) {
-		writer.println(label+System.currentTimeMillis()+END+msg);
-		writer.println(t.toString());
+		StringBuilder builder = new StringBuilder(50);
+		builder.append(label);
+		builder.append(System.currentTimeMillis());
+		builder.append(SPACE);
+		builder.append(name);
+		builder.append(END);
+		builder.append(msg);
+		builder.append(NEWLINE);
+
+		if (t != null) {
+			builder.append(t.toString());
+			builder.append(NEWLINE);
+		}
+
+		writer.print(builder);
+		writer.flush();
 	}
 
 	@Override
