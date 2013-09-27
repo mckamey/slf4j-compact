@@ -13,7 +13,7 @@
 
 	<groupId>com.pseudocode</groupId>
 	<artifactId>slf4j-compact</artifactId>
-	<version>1.7.5.1</version>
+	<version>1.7.5.2</version>
 	<packaging>jar</packaging>
 
 	<name>SLF4J Compact</name>

@@ -18,7 +18,6 @@ public class CompactLogger extends MarkerIgnoringBase {
 	private static final String END = "] ";
 	private static final String SPACE = " ";
 
-	private static final String NEWLINE = System.getProperty("line.separator");
 	private final PrintStream writer;
 
 	public CompactLogger(String name, OutputStream output) {
@@ -87,14 +86,12 @@ public class CompactLogger extends MarkerIgnoringBase {
 		builder.append(name);
 		builder.append(END);
 		builder.append(msg);
-		builder.append(NEWLINE);
+		writer.println(builder.toString());
 
 		if (t != null) {
-			builder.append(t.toString());
-			builder.append(NEWLINE);
+			t.printStackTrace(writer);
 		}
 
-		writer.print(builder);
 		writer.flush();
 	}
 
