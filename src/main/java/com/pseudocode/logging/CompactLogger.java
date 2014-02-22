@@ -1,15 +1,11 @@
 package com.pseudocode.logging;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-
 import org.slf4j.helpers.FormattingTuple;
 import org.slf4j.helpers.MarkerIgnoringBase;
 import org.slf4j.helpers.MessageFormatter;
 
-@SuppressWarnings("serial")
 public class CompactLogger extends MarkerIgnoringBase {
-
+	private static final long serialVersionUID = 1L;
 	private static final String TRACE = "[TRACE ";
 	private static final String DEBUG = "[DEBUG ";
 	private static final String INFO = "[INFO ";
@@ -18,45 +14,33 @@ public class CompactLogger extends MarkerIgnoringBase {
 	private static final String END = "] ";
 	private static final String SPACE = " ";
 
-	private final PrintStream writer;
-
-	public CompactLogger(String name, OutputStream output) {
-		this.name = (name == null) ? "" : name.substring(name.lastIndexOf('.')+1);
-
-		if (output == null) {
-			this.writer = System.out;
-
-		} else if (output instanceof PrintStream) {
-			this.writer = (PrintStream)output;
-
-		} else {
-			this.writer = new PrintStream(output, true);
-		}
+	public CompactLogger(String logName) {
+		name = (logName == null) ? "" : logName.substring(logName.lastIndexOf('.')+1);
 	}
 
 	@Override
 	public boolean isTraceEnabled() {
-		return CompactLoggerFactory.isTraceEnabled();
+		return CompactLoggerFactory.isTraceEnabled;
 	}
 
 	@Override
 	public boolean isDebugEnabled() {
-		return CompactLoggerFactory.isDebugEnabled();
+		return CompactLoggerFactory.isDebugEnabled;
 	}
 
 	@Override
 	public boolean isInfoEnabled() {
-		return CompactLoggerFactory.isInfoEnabled();
+		return CompactLoggerFactory.isInfoEnabled;
 	}
 
 	@Override
 	public boolean isWarnEnabled() {
-		return CompactLoggerFactory.isWarnEnabled();
+		return CompactLoggerFactory.isWarnEnabled;
 	}
 
 	@Override
 	public boolean isErrorEnabled() {
-		return CompactLoggerFactory.isErrorEnabled();
+		return CompactLoggerFactory.isErrorEnabled;
 	}
 
 	protected void write(String label, String msg) {
@@ -79,20 +63,29 @@ public class CompactLogger extends MarkerIgnoringBase {
 	}
 
 	protected void write(String label, String msg, Throwable t) {
-		StringBuilder builder = new StringBuilder(50);
-		builder.append(label);
-		builder.append(System.currentTimeMillis());
-		builder.append(SPACE);
-		builder.append(name);
-		builder.append(END);
-		builder.append(msg);
-		writer.println(builder.toString());
-
-		if (t != null) {
-			t.printStackTrace(writer);
+		if (label == null) {
+			label = "";
+		}
+		if (msg == null) {
+			msg = "";
 		}
 
-		writer.flush();
+		String line = new StringBuilder(label.length() + name.length() + msg.length() + 20)
+			.append(label)
+			.append(System.currentTimeMillis())
+			.append(SPACE)
+			.append(name)
+			.append(END)
+			.append(msg).toString();
+
+		CompactLoggerFactory.writer.println(line);
+		if (t != null) {
+			t.printStackTrace(CompactLoggerFactory.writer);
+		}
+
+		if (CompactLoggerFactory.needsFlush) {
+			CompactLoggerFactory.writer.flush();
+		}
 	}
 
 	@Override

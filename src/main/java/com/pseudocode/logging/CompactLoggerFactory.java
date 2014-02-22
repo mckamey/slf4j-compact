@@ -1,28 +1,45 @@
 package com.pseudocode.logging;
 
 import java.io.OutputStream;
+import java.io.PrintStream;
 
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
+/**
+ * This class enables quick & dirty programmatic access to
+ * enabling/disabling logging levels and setting output.
+ */
 public class CompactLoggerFactory implements ILoggerFactory {
 
 	// set up logging defaults
-	private static boolean isTraceEnabled = false;
-	private static boolean isDebugEnabled = false;
-	private static boolean isInfoEnabled = true;
-	private static boolean isWarnEnabled = true;
-	private static boolean isErrorEnabled = true;
+	static volatile boolean isTraceEnabled = false;
+	static volatile boolean isDebugEnabled = false;
+	static volatile boolean isInfoEnabled = true;
+	static volatile boolean isWarnEnabled = true;
+	static volatile boolean isErrorEnabled = true;
 
-	private static OutputStream output;
-
-	public static void setLoggerOutput(OutputStream output) {
-		CompactLoggerFactory.output = output;
-	}
+	static volatile PrintStream writer = System.out;
+	static volatile boolean needsFlush = true;
 
 	@Override
 	public Logger getLogger(String name) {
-		return new CompactLogger(name, output);
+		return new CompactLogger(name);
+	}
+
+	public static synchronized void setLoggerOutput(OutputStream output) {
+		if (output == null) {
+			writer = System.out;
+			needsFlush = true;
+
+		} else if (output instanceof PrintStream) {
+			writer = (PrintStream)output;
+			needsFlush = (output != System.err);
+
+		} else {
+			writer = new PrintStream(output, true);
+			needsFlush = false;
+		}
 	}
 
 	public static boolean isTraceEnabled() {
