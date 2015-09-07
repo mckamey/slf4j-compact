@@ -13,7 +13,7 @@
 
 	<groupId>com.pseudocode</groupId>
 	<artifactId>slf4j-compact</artifactId>
-	<version>1.7.6</version>
+	<version>1.7.12</version>
 	<packaging>jar</packaging>
 
 	<name>SLF4J Compact</name>
@@ -42,7 +42,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<slf4j.version>${project.version}</slf4j.version>
-		<junit.version>4.11</junit.version>
+		<junit.version>4.12</junit.version>
 		<javac.version>1.6</javac.version>
 	</properties>
 
