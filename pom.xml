@@ -18,17 +18,17 @@
 
 	<name>SLF4J Compact</name>
 	<description>SLF4J Compact Simple Binding</description>
-	<url>https://bitbucket.org/mckamey/slf4j-compact</url>
+	<url>https://github.com/mckamey/slf4j-compact</url>
 	<licenses>
 		<license>
 			<name>MIT License</name>
-			<url>https://bitbucket.org/mckamey/slf4j-compact/LICENSE.txt</url>
+			<url>https://github.com/mckamey/slf4j-compact/raw/master/LICENSE.txt</url>
 		</license>
 	</licenses>
 	<scm>
-		<url>https://bitbucket.org/mckamey/slf4j-compact</url>
-		<connection>scm:hg:https://bitbucket.org/mckamey/slf4j-compact</connection>
-		<developerConnection>scm:hg:https://bitbucket.org/mckamey/slf4j-compact</developerConnection>
+		<url>https://github.com/mckamey/slf4j-compact</url>
+		<connection>scm:git:https://github.com/mckamey/slf4j-compact</connection>
+		<developerConnection>scm:git:https://github.com/mckamey/slf4j-compact</developerConnection>
 	</scm>
 	<developers>
 		<developer>
@@ -43,7 +43,7 @@
 
 		<slf4j.version>${project.version}</slf4j.version>
 		<junit.version>4.12</junit.version>
-		<javac.version>1.6</javac.version>
+		<javac.version>1.8</javac.version>
 	</properties>
 
 	<dependencies>
